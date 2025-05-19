@@ -1,0 +1,20 @@
+/* Profile header - Business Name */
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-header h1 {
+    font-size: 2.2em;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 2rem;
+
+}
+
+.profile-header .owner {
+    font-size: 1.1em;
+    color: #777;
+    margin-top: 8px;
+    font-weight: 400;
+}

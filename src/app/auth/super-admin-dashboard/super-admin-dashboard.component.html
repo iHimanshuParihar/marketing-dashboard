@@ -1,0 +1,485 @@
+<nz-tabset nzCentered (nzSelectChange)="onTabChange($event.index)">
+  <nz-tab nzTitle="Users">
+    <div class="w-full mb-4 flex justify-end items-center">
+      <button nz-button nzType="primary" (click)="showModal()">
+        Create User
+      </button>
+    </div>
+    <nz-table
+      #basicTable
+      [nzData]="listOfData"
+      [nzPageSize]="pageSize"
+      [nzTotal]="totalDataCount"
+      [nzPageIndex]="pageIndex"
+      [nzBordered]="true"
+      (nzPageIndexChange)="onPageChange($event)"
+    >
+      <thead>
+        <tr>
+          <th>Sr. no</th>
+          <th>Business Name</th>
+          <th>Business Description</th>
+          <th>Business Owner</th>
+          <th>Email</th>
+          <th>Credit</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of basicTable.data ; track data.userId; let id = $index; ) {
+        <tr>
+          <td>{{ id + 1 }}</td>
+          <td>{{ data.businessName }}</td>
+          <td>
+            <div
+              style="
+                width: 20rem;
+                max-height: 10rem !important;
+                white-space: break-spaces;
+                overflow: auto;
+              "
+            >
+              {{ data.businessDescription }}
+            </div>
+          </td>
+          <td>{{ data.individualName }}</td>
+          <td>{{ data.email }}</td>
+          <td>
+            <div
+              class="flex items-center"
+              [ngClass]="{ 'flex-col': isEditing }"
+            >
+              <ng-container *ngIf="!isEditing; else editMode">
+                {{ data.credit || 0 }}
+                <button (click)="toggleEdit(data.credit)" class="ml-2 p-1">
+                  <i nz-icon nzType="edit" nzTheme="outline"></i>
+                </button>
+              </ng-container>
+
+              <ng-template #editMode>
+                <input
+                  [(ngModel)]="editableValue"
+                  type="number"
+                  class="p-1 border rounded w-20"
+                />
+                <div class="flex gap-4">
+                  <button
+                    (click)="saveEdit(data.userId)"
+                    class="ml-2 p-1 text-green-500 hover:text-green-700"
+                  >
+                    <i nz-icon nzType="check" nzTheme="outline"></i>
+                  </button>
+                  <button
+                    (click)="cancelEdit()"
+                    class="ml-2 p-1 text-red-500 hover:text-red-700"
+                  >
+                    <i nz-icon nzType="close" nzTheme="outline"></i>
+                  </button>
+                </div>
+              </ng-template>
+            </div>
+          </td>
+          <td>
+            <nz-switch
+              [(ngModel)]="data.isActive"
+              [nzControl]="true"
+              (click)="deleteManager(data.userId, !data.isActive)"
+              [nzLoading]="loading"
+              [nzTooltipTitle]="
+                data.isActive ? 'Deactivate Manager' : 'Activate Manager'
+              "
+              nzTooltipPlacement="bottom"
+              [nzTooltipMouseEnterDelay]="0.8"
+              nzTooltipOverlayClassName="custom-tooltip"
+              nz-tooltip
+            ></nz-switch>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a
+              ><span
+                nz-popconfirm
+                nzPopconfirmTitle="Manager can't log in until password is changed."
+                (nzOnConfirm)="generatePasswordToken(data.email)"
+                nz-icon
+                nzType="reload"
+                nzTheme="outline"
+                nzTooltipTitle="Change Password"
+                nzTooltipPlacement="bottom"
+                [nzTooltipMouseEnterDelay]="0.8"
+                nzTooltipOverlayClassName="custom-tooltip"
+                nz-tooltip
+              ></span
+            ></a>
+            @if(data.token){
+
+            <nz-divider nzType="vertical"></nz-divider>
+            <a tabindex="0" (click)="copyPasswordLink(data.token)"
+              ><span
+                nz-icon
+                nzType="link"
+                nzTheme="outline"
+                nzTooltipTitle="Copy Password Change Link"
+                nzTooltipPlacement="bottom"
+                [nzTooltipMouseEnterDelay]="0.8"
+                nzTooltipOverlayClassName="custom-tooltip"
+                nz-tooltip
+              ></span
+            ></a>
+            }
+            <nz-divider nzType="vertical"></nz-divider>
+            <a class="text-lg" (click)="showChartsModal(data?.userId)"
+              ><span
+                nz-icon
+                nzType="bar-chart"
+                nzTheme="outline"
+                nzTooltipTitle="Update User Charts"
+                nzTooltipPlacement="bottom"
+                [nzTooltipMouseEnterDelay]="0.8"
+                nzTooltipOverlayClassName="custom-tooltip"
+                nz-tooltip
+              ></span
+            ></a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </nz-table>
+  </nz-tab>
+  <nz-tab nzTitle="Campaigns"
+    ><nz-table
+      #basicTable1
+      [nzData]="listOfCampaigns"
+      [nzPageSize]="pageSizeCampaign"
+      [nzTotal]="totalDataCountCampaign"
+      [nzPageIndex]="pageIndexCampaign"
+      (nzPageIndexChange)="onPageChange($event, 'campaign')"
+      [nzScroll]="{ x: '2000px' }"
+    >
+      <thead>
+        <tr>
+          <th nzWidth="150px">Date</th>
+          <th nzWidth="200px">Campaign Name</th>
+          <th nzWidth="150px">Campaign Type</th>
+          <th nzWidth="250px">Campaign Goals</th>
+          <th nzWidth="150px">Age Group</th>
+          <th nzWidth="150px">Creative Type</th>
+          <th nzWidth="200px">Schedule Date</th>
+          <th nzWidth="100px">Gender</th>
+          <th nzWidth="200px">Location</th>
+          <th nzWidth="300px">Message Content</th>
+          <th nzWidth="300px">SMS Content</th>
+          <th nzWidth="150px">Media File</th>
+          <th nzWidth="150px">Uploaded File</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable1.data">
+          <td>{{ data.createdAt | date }}</td>
+          <td>{{ data.campaignName }}</td>
+          <td>{{ data.campaignType }}</td>
+          <td>{{ data.campaignGoals }}</td>
+          <td>
+            <div *ngFor="let item of data.ageGroup">{{ item }}</div>
+          </td>
+          <td>
+            <div *ngFor="let item of data.creativeType">{{ item }}</div>
+          </td>
+          <td>{{ data.dateAndTime | date }}</td>
+          <td>{{ data.gender || "N/A" }}</td>
+          <td>{{ data.location || "N/A" }}</td>
+          <td>
+            <div
+              style="
+                width: 20rem;
+                max-height: 10rem !important;
+                white-space: break-spaces;
+                overflow: auto;
+              "
+            >
+              {{ data.messageContent || "N/A" }}
+            </div>
+          </td>
+          <td>{{ data.smsContent || "N/A" }}</td>
+          <td>
+            <a
+              *ngIf="data.mediaFile"
+              class="text-blue-500 cursor-pointer hover:underline"
+              [href]="getFileURL(data.mediaFile)"
+              >View File</a
+            >
+            <div *ngIf="!data.mediaFile">N/A</div>
+          </td>
+          <td>
+            <a
+              *ngIf="data.uploadedFile"
+              class="text-blue-500 cursor-pointer hover:underline"
+              [href]="getFileURL(data.uploadedFile)"
+              >View File</a
+            >
+            <div *ngIf="!data.uploadedFile">N/A</div>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table></nz-tab
+  >
+</nz-tabset>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Create User"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+>
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="createUserForm" class="flex flex-col gap-8">
+      <!-- Email -->
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="6">
+          <label for="email">Email</label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="18">
+          <input
+            id="email"
+            nz-input
+            formControlName="email"
+            placeholder="Enter email"
+          />
+          <div
+            *ngIf="
+              createUserForm.controls['email'].invalid &&
+              createUserForm.controls['email'].touched
+            "
+          >
+            <small class="text-red-500">Please enter a valid email</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Business Name -->
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="6">
+          <label for="businessName">Business Name</label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="18">
+          <input
+            id="businessName"
+            nz-input
+            formControlName="businessName"
+            placeholder="Enter business name"
+          />
+        </div>
+      </div>
+
+      <!-- Individual Name -->
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="6">
+          <label for="individualName">Individual Name</label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="18">
+          <input
+            id="individualName"
+            nz-input
+            formControlName="individualName"
+            placeholder="Enter individual name"
+          />
+        </div>
+      </div>
+
+      <!-- Business Description -->
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="6">
+          <label for="businessDescription">Business Description</label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="18">
+          <textarea
+            id="businessDescription"
+            nz-input
+            formControlName="businessDescription"
+            placeholder="Enter business description"
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Mobile -->
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="6">
+          <label for="mobile">Mobile</label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="18">
+          <input
+            id="mobile"
+            nz-input
+            formControlName="mobile"
+            placeholder="Enter mobile number"
+            type="tel"
+          />
+          <div
+            *ngIf="
+              createUserForm.controls['mobile'].invalid &&
+              createUserForm.controls['mobile'].touched
+            "
+          >
+            <small class="text-red-500">Enter a valid Mobile number</small>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isChartsVisible"
+  nzTitle="Create User"
+  (nzOnCancel)="okChartsModel()"
+  (nzOnOk)="closeChartsModel()"
+  nzTitle="Update User Charts"
+  [nzWidth]="800"
+  [nzBodyStyle]="{ maxHeight: '70vh', overflow: 'auto' }"
+>
+  <ng-container *nzModalContent>
+    <div class="charts-container">
+      <!-- Channel Performance Chart -->
+      <div class="chart-upload-section">
+        <h3>1. Channel-wise Performance Chart</h3>
+        <div class="upload-container">
+          <div class="upload-box" (click)="fileInput1.click()">
+            <input
+              #fileInput1
+              type="file"
+              (change)="onFileSelected($event, 1)"
+              accept=".xlsx,.xls"
+              hidden
+            />
+            <span nz-icon nzType="upload" nzTheme="outline"></span>
+            <p>Click or drag file to upload</p>
+            <p class="selected-file" *ngIf="selectedFiles[1]">
+              Selected: {{ selectedFiles[1].name }}
+            </p>
+          </div>
+          <button nz-button nzType="link" (click)="downloadSample(1)">
+            Download Sample Excel
+          </button>
+        </div>
+      </div>
+
+      <!-- Cohort Performance Chart -->
+      <div class="chart-upload-section">
+        <h3>2. Cohort-wise Performance Chart</h3>
+        <div class="upload-container">
+          <div class="upload-box" (click)="fileInput2.click()">
+            <input
+              #fileInput2
+              type="file"
+              (change)="onFileSelected($event, 2)"
+              accept=".xlsx,.xls"
+              hidden
+            />
+            <span nz-icon nzType="upload" nzTheme="outline"></span>
+            <p>Click or drag file to upload</p>
+            <p class="selected-file" *ngIf="selectedFiles[2]">
+              Selected: {{ selectedFiles[2].name }}
+            </p>
+          </div>
+          <button nz-button nzType="link" (click)="downloadSample(2)">
+            Download Sample Excel
+          </button>
+        </div>
+      </div>
+
+      <!-- CTR Chart -->
+      <div class="chart-upload-section">
+        <h3>3. Click Through Rate (CTR) Chart</h3>
+        <div class="upload-container">
+          <div class="upload-box" (click)="fileInput3.click()">
+            <input
+              #fileInput3
+              type="file"
+              (change)="onFileSelected($event, 3)"
+              accept=".xlsx,.xls"
+              hidden
+            />
+            <span nz-icon nzType="upload" nzTheme="outline"></span>
+            <p>Click or drag file to upload</p>
+            <p class="selected-file" *ngIf="selectedFiles[3]">
+              Selected: {{ selectedFiles[3].name }}
+            </p>
+          </div>
+          <button nz-button nzType="link" (click)="downloadSample(3)">
+            Download Sample Excel
+          </button>
+        </div>
+      </div>
+
+      <!-- Open Rate Chart -->
+      <div class="chart-upload-section">
+        <h3>4. Open Rate Chart</h3>
+        <div class="upload-container">
+          <div class="upload-box" (click)="fileInput4.click()">
+            <input
+              #fileInput4
+              type="file"
+              (change)="onFileSelected($event, 4)"
+              accept=".xlsx,.xls"
+              hidden
+            />
+            <span nz-icon nzType="upload" nzTheme="outline"></span>
+            <p>Click or drag file to upload</p>
+            <p class="selected-file" *ngIf="selectedFiles[4]">
+              Selected: {{ selectedFiles[4].name }}
+            </p>
+          </div>
+          <button nz-button nzType="link" (click)="downloadSample(4)">
+            Download Sample Excel
+          </button>
+        </div>
+      </div>
+
+      <!-- Audience Growth Chart -->
+      <div class="chart-upload-section">
+        <h3>5. User Targeted</h3>
+        <div class="upload-container">
+          <div class="upload-box" (click)="fileInput5.click()">
+            <input
+              #fileInput5
+              type="file"
+              (change)="onFileSelected($event, 5)"
+              accept=".xlsx,.xls"
+              hidden
+            />
+            <span nz-icon nzType="upload" nzTheme="outline"></span>
+            <p>Click or drag file to upload</p>
+            <p class="selected-file" *ngIf="selectedFiles[5]">
+              Selected: {{ selectedFiles[5].name }}
+            </p>
+          </div>
+          <button nz-button nzType="link" (click)="downloadSample(5)">
+            Download Sample Excel
+          </button>
+        </div>
+      </div>
+
+      <div class="chart-upload-section">
+        <h3>6. Messages Sent</h3>
+        <div class="upload-container">
+          <div class="upload-box" (click)="fileInput6.click()">
+            <input
+              #fileInput6
+              type="file"
+              (change)="onFileSelected($event, 6)"
+              accept=".xlsx,.xls"
+              hidden
+            />
+            <span nz-icon nzType="upload" nzTheme="outline"></span>
+            <p>Click or drag file to upload</p>
+            <p class="selected-file" *ngIf="selectedFiles[6]">
+              Selected: {{ selectedFiles[6].name }}
+            </p>
+          </div>
+          <button nz-button nzType="link" (click)="downloadSample(6)">
+            Download Sample Excel
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>

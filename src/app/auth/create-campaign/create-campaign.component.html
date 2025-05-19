@@ -1,0 +1,725 @@
+<div
+  style="display: flex"
+  class="p-12 rounded-lg mx-auto w-full h-full justify-between flex-col overflow-auto"
+>
+  <nz-steps [nzCurrent]="currentStep" class="mb-6" nzSize="small">
+    <nz-step nzTitle="Campaign Details"></nz-step>
+    <nz-step nzTitle="Campaign Type"></nz-step>
+    <nz-step
+      [nzTitle]="
+        isUploadMethod
+          ? 'Upload Files'
+          : isCohortMethod
+          ? 'Select targets'
+          : 'Methods'
+      "
+    ></nz-step>
+    <nz-step nzTitle="Creative Options"></nz-step>
+    <nz-step nzTitle="Launch Date"></nz-step>
+    <nz-step nzTitle="Review & Submit"></nz-step>
+  </nz-steps>
+
+  <div
+    class="w-full h-5/6 flex justify-center items-center mt-12 overflow-auto"
+  >
+    <form
+      [ngStyle]="
+        isCohortMethod && currentStep === 3
+          ? { display: 'none' }
+          : { display: 'flex' }
+      "
+      [formGroup]="campaignForm"
+      (ngSubmit)="onSubmit()"
+      class="w-3/4 h-full flex-col justify-center items-center"
+    >
+      <!-- Step 1: Campaign Details -->
+      <div
+        *ngIf="currentStep === 0"
+        style="display: flex"
+        class="flex-col gap-14 items-center w-full"
+      >
+        <nz-form-item class="w-full">
+          <nz-form-control
+            [nzSpan]="24"
+            style="display: flex"
+            class="flex-col w-full"
+          >
+            <input
+              nz-input
+              id="campaignName"
+              formControlName="campaignName"
+              placeholder="Enter campaign name"
+              class="w-full max-w-md"
+            />
+            <div
+              *ngIf="
+                campaignForm.get('campaignName')?.touched &&
+                campaignForm.get('campaignName')?.invalid
+              "
+              class="text-red-500 text-sm mt-1 text-center"
+            >
+              Campaign name is required!
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="w-full">
+          <nz-form-control [nzSpan]="24" class="flex-col w-full">
+            <nz-select
+              formControlName="campaignGoals"
+              nzPlaceHolder="Select campaign goals"
+              [nzMode]="'multiple'"
+              class="w-full max-w-md"
+            >
+              <nz-option
+                nzValue="Generate Leads"
+                nzLabel="Generate Leads"
+              ></nz-option>
+              <nz-option
+                nzValue="Increase Engagement"
+                nzLabel="Increase Engagement"
+              ></nz-option>
+              <nz-option
+                nzValue="Boost Sales"
+                nzLabel="Boost Sales"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- Step 2: Campaign Type -->
+      <div
+        *ngIf="currentStep === 1"
+        class="flex gap-14 items-center w-full h-full"
+      >
+        <!-- <nz-form-item class="w-full">
+          <nz-form-control [nzSpan]="24" class="flex-col w-full">
+            <nz-select
+              formControlName="cohortOrUpload"
+              nzPlaceHolder="Select campaign type"
+              class="w-full max-w-md"
+              (ngModelChange)="onTargetingMethodChange($event)"
+            >
+              <nz-option nzValue="Cohort" nzLabel="Cohort"></nz-option>
+              <nz-option nzValue="Upload" nzLabel="Upload File"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item> -->
+
+        <!-- Grid with divider and "OR" -->
+        <div
+          class="flex items-center w-full h-full gap-4"
+          style="flex-direction: row"
+        >
+          <!-- Cohort div -->
+          <div
+            class="flex-1 p-4 cursor-pointer w-full h-full"
+            style="padding-top: 5.5rem; padding-bottom: 6.5rem"
+          >
+            <div
+              class="flex flex-col items-center justify-center w-full h-full cursor-pointer text-center bg-opacity-10"
+              [ngStyle]="{
+                'background-color': isCohortMethod ? '#e9ffe9' : 'transparent',
+                color: isCohortMethod ? 'white' : 'black'
+              }"
+              style="border-radius: 10px; border: 1px dashed green"
+              (click)="onCohortSelected()"
+            >
+              <h3 class="text-2xl font-extrabold text-green-700 mb-4 mt-4">
+                Cohort
+              </h3>
+              <div
+                class="flex flex-col items-center justify-center text-center space-y-4"
+              >
+                <p class="text-base font-semibold text-gray-700">
+                  <b>Customize Your Campaign</b>
+                </p>
+                <p class="text-sm font-medium text-gray-500">
+                  Target Users by Age Group, Location, and Gender for precise
+                  outreach and better results.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Divider with OR in the middle -->
+          <nz-divider
+            nzPlain
+            nzType="vertical"
+            nzVariant="dashed"
+            class="h-full"
+          ></nz-divider>
+
+          <!-- Upload div -->
+          <div class="flex-1 w-full h-full">
+            <div class="w-full h-full flex justify-center">
+              <nz-form-item class="w-full">
+                <nz-form-label
+                  [nzSpan]="24"
+                  nzFor="uploadFile"
+                  class="text-white text-center"
+                  >Upload Data File</nz-form-label
+                >
+
+                <nz-form-control [nzSpan]="24" class="text-center">
+                  <!-- Drag-and-Drop File Upload -->
+                  <div class="flex items-center justify-center w-full">
+                    <label
+                      [ngStyle]="{
+                        'background-color': isUploadMethod
+                          ? '#e9ffe9'
+                          : '#f9fafb',
+                        'border-color': isUploadMethod ? '#00923a' : '#d1d5db',
+                        color: isUploadMethod ? '#00923a' : '#6b7280'
+                      }"
+                      for="dropzone-file"
+                      class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50"
+                    >
+                      <div
+                        class="flex flex-col items-center justify-center pt-5 pb-6"
+                      >
+                        <svg
+                          class="w-8 h-8 mb-4 text-gray-500"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 20 16"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                          />
+                        </svg>
+                        <p class="mb-2 text-sm text-gray-500">
+                          <span class="font-semibold">Click to upload</span>
+                        </p>
+                        <p class="text-xs text-gray-500">.xlsx, .xls Only</p>
+                      </div>
+                      <!-- Hidden Input -->
+                      <input
+                        id="dropzone-file"
+                        type="file"
+                        class="hidden"
+                        (change)="onFileChange($event)"
+                        accept=".xlsx, .xls"
+                      />
+                    </label>
+                  </div>
+
+                  <!-- If a file is uploaded, show the Reupload and Remove buttons -->
+                  <div *ngIf="uploadedFile">
+                    <div class="mt-4 text-gray-700">
+                      <span class="font-semibold">{{ uploadedFile.name }}</span>
+                    </div>
+                    <div style="display: flex" class="justify-evenly mt-2">
+                      <!-- Reupload Button -->
+                      <!-- <button
+                        nz-button
+                        style="width: 15rem"
+                        nzType="primary"
+                        (click)="onReupload()"
+                      >
+                        Reupload
+                      </button> -->
+                      <!-- Remove Button -->
+                      <button
+                        nz-button
+                        nzDanger
+                        style="
+                          width: 15rem;
+                          display: flex;
+                          justify-content: center;
+                        "
+                        (click)="onRemoveFile()"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Methods -->
+
+      <div
+        *ngIf="currentStep === 2"
+        style="display: flex"
+        class="flex-col gap-14 items-center w-full"
+      >
+        <!-- Cohort Fields -->
+        <div
+          *ngIf="isCohortMethod"
+          class="w-full flex flex-col gap-6 items-center"
+        >
+          <nz-form-item class="w-full">
+            <nz-form-label
+              [nzSpan]="24"
+              nzFor="ageGroup"
+              class="text-white text-center"
+              >Age Group</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="24"
+              style="display: flex"
+              class="flex-col w-full"
+            >
+              <nz-slider
+                nzRange
+                formControlName="ageGroup"
+                [nzMin]="18"
+                [nzMax]="60"
+                class="w-full max-w-md"
+              ></nz-slider>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="w-full">
+            <nz-form-label
+              [nzSpan]="24"
+              nzFor="gender"
+              class="text-white text-center"
+              >Gender</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="24"
+              style="display: flex"
+              class="flex-col w-full"
+            >
+              <nz-radio-group formControlName="gender">
+                <label nz-radio nzValue="Male" class="mr-4">Male</label>
+                <label nz-radio nzValue="Female" class="mr-4">Female</label>
+                <label nz-radio nzValue="All">All</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <!-- Step 4: Creative Options -->
+      <div
+        *ngIf="
+          (isCohortMethod && currentStep === 4) ||
+          (!isCohortMethod && currentStep === 3)
+        "
+        style="display: flex"
+        class="w-full flex-col gap-6 items-center relative top-40"
+      >
+        <nz-form-item class="w-full">
+          <nz-form-label
+            [nzSpan]="24"
+            nzFor="creativeType"
+            class="text-white text-center"
+            >Creative Type</nz-form-label
+          >
+          <nz-form-control
+            [nzSpan]="24"
+            style="display: flex"
+            class="flex-col w-full"
+          >
+            <nz-select
+              formControlName="creativeType"
+              nzPlaceHolder="Select creative type"
+              nzMode="multiple"
+              class="w-full max-w-md"
+            >
+              <nz-option nzValue="WhatsApp" nzLabel="WhatsApp"></nz-option>
+              <nz-option nzValue="SMS" nzLabel="SMS"></nz-option>
+              <nz-option nzValue="RCS" nzLabel="RCS"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="w-full">
+          <nz-form-label
+            [nzSpan]="24"
+            nzFor="toneOptions"
+            class="text-white text-center"
+          >
+            Tone Options
+          </nz-form-label>
+          <nz-form-control
+            [nzSpan]="24"
+            style="display: flex"
+            class="flex-col w-full"
+          >
+            <nz-select
+              formControlName="toneOptions"
+              nzPlaceHolder="Choose tone options"
+              class="w-full max-w-md"
+            >
+              <nz-option nzValue="formal" nzLabel="Formal"></nz-option>
+              <nz-option nzValue="casual" nzLabel="Casual"></nz-option>
+              <nz-option
+                nzValue="professional"
+                nzLabel="Professional"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item
+          class="w-full flex items-start gap-4"
+          *ngIf="
+            campaignForm.value.creativeType.includes('WhatsApp') ||
+            campaignForm.value.creativeType.includes('RCS')
+          "
+        >
+          <nz-form-control [nzSpan]="24" class="w-full">
+            <textarea
+              formControlName="content"
+              rows="6"
+              placeholder="Enter content here"
+              class="w-full border border-gray-300 rounded p-2 text-black focus:border-green-500 focus:outline-none"
+              [nzAutosize]="{ minRows: 4, maxRows: 15 }"
+              maxlength="1024"
+              (input)="updateCharacterCount('content')"
+            ></textarea>
+            <div class="text-right text-sm text-gray-500">
+              {{ campaignForm.value.content.length || 0 }}/1024 characters
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item
+          class="w-full flex items-start gap-4"
+          *ngIf="campaignForm.value.creativeType.includes('SMS')"
+        >
+          <nz-form-control [nzSpan]="24" class="w-full">
+            <textarea
+              formControlName="SMScontent"
+              rows="6"
+              placeholder="Enter SMS content here"
+              class="w-full border border-gray-300 rounded p-2 text-black focus:border-green-500 focus:outline-none"
+              [nzAutosize]="{ minRows: 4, maxRows: 15 }"
+              maxlength="160"
+              (input)="updateCharacterCount('SMScontent')"
+            ></textarea>
+            <div class="text-right text-sm text-gray-500">
+              {{ campaignForm.value.SMScontent.length || 0 }}/160 characters
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+
+        <div
+          *ngIf="
+            campaignForm.value.creativeType.includes('WhatsApp') ||
+            campaignForm.value.creativeType.includes('RCS')
+          "
+          class="w-full"
+        >
+          <div class="container">
+            <h2>Upload Media File (Optional)</h2>
+            <div class="file-input-box">
+              <div class="wrapper-file-input">
+                <div class="input-box" (click)="openFileInput()">
+                  <h4>
+                    <i class="fa-solid fa-upload"></i>
+                    Choose Media to upload
+                  </h4>
+                  <input
+                    #fileInput
+                    formControlName="mediaFile"
+                    type="file"
+                    hidden
+                    (change)="onMediaFileChange($event)"
+                  />
+                </div>
+                <small>Files Supported: PDF, TEXT, DOC, DOCX, JPG, PNG, </small>
+              </div>
+            </div>
+          </div>
+          <div
+            style="display: flex"
+            class="w-full justify-center items-center mt-4"
+          >
+            <button
+              *ngIf="isMediaFile"
+              nz-button
+              nzType="default"
+              type="button"
+              nzSize="small"
+              nzDanger
+              (click)="removeMedia()"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5: Date -->
+
+      <div
+        *ngIf="
+          (isCohortMethod && currentStep === 5) ||
+          (!isCohortMethod && currentStep === 4)
+        "
+        style="display: flex"
+        class="flex-col gap-14 items-center w-full"
+      >
+        <nz-form-item class="w-full">
+          <nz-form-control [nzSpan]="24" class="flex-col w-full">
+            <nz-date-picker
+              nzShowTime
+              nzFormat="yyyy-MM-dd HH:mm:ss"
+              (nzOnOk)="setDateAndTime($event)"
+            ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- Step 5: Review & Submit -->
+      <div
+        *ngIf="
+          (isCohortMethod && currentStep === 6) ||
+          (!isCohortMethod && currentStep === 5)
+        "
+        class="w-full max-w-3xl mt-24"
+        style="height: inherit"
+      >
+        <h3 class="text-3xl font-bold mb-6 text-center">Campaign Summary</h3>
+        <nz-divider></nz-divider>
+
+        <div class="grid grid-cols-3 gap-4 text-sm font-medium">
+          <!-- Campaign Name -->
+          <div>
+            <span class="text-gray-600 font-semibold">Campaign Name:</span>
+            <span class="block text-gray-900">{{
+              campaignForm.value.campaignName
+            }}</span>
+          </div>
+
+          <!-- Campaign Goals -->
+          <div>
+            <span class="text-gray-600 font-semibold">Campaign Goals:</span>
+            <span class="block text-gray-900">{{
+              campaignForm.value.campaignGoals.join(", ")
+            }}</span>
+          </div>
+
+          <!-- Targeting Method -->
+          <div>
+            <span class="text-gray-600 font-semibold">Targeting Method:</span>
+            <span class="block text-gray-900">{{
+              campaignForm.value.cohortOrUpload
+            }}</span>
+          </div>
+
+          <!-- Cohort-specific Fields -->
+          <ng-container *ngIf="campaignForm.value.cohortOrUpload === 'Cohort'">
+            <div>
+              <span class="text-gray-600 font-semibold">Age Group:</span>
+              <span class="block text-gray-900"
+                >{{ campaignForm.value.ageGroup[0] }} -
+                {{ campaignForm.value.ageGroup[1] }}</span
+              >
+            </div>
+
+            <div>
+              <span class="text-gray-600 font-semibold">Gender:</span>
+              <span class="block text-gray-900">{{
+                campaignForm.value.gender || "Not specified"
+              }}</span>
+            </div>
+
+            <div>
+              <span class="text-gray-600 font-semibold"
+                >Average Population ({{
+                  campaignForm.value.gender || ""
+                }}):</span
+              >
+              <span
+                class="block text-gray-900"
+                *ngIf="campaignForm.value.gender === 'Male'"
+                >{{ malesCount }}</span
+              >
+              <span
+                class="block text-gray-900"
+                *ngIf="campaignForm.value.gender === 'Female'"
+                >{{ femalesCount }}</span
+              >
+              <span
+                class="block text-gray-900"
+                *ngIf="campaignForm.value.gender === 'All'"
+                >{{ totalCount }}</span
+              >
+            </div>
+
+            <!-- Location -->
+            <div>
+              <span class="text-gray-600 font-semibold">Location:</span>
+              <span class="block text-gray-900">{{
+                campaignForm.value.location || "Not specified"
+              }}</span>
+            </div>
+          </ng-container>
+
+          <!-- Creative Type -->
+          <div>
+            <span class="text-gray-600 font-semibold">Creative Type:</span>
+            <span class="block text-gray-900">{{
+              campaignForm.value.creativeType.join(", ")
+            }}</span>
+          </div>
+
+          <!-- Tone -->
+          <div>
+            <span class="text-gray-600 font-semibold">Tone:</span>
+            <span class="block text-gray-900">{{
+              campaignForm.value.toneOptions
+            }}</span>
+          </div>
+
+          <div>
+            <span class="text-gray-600 font-semibold">Date & Time:</span>
+            <span class="block text-gray-900">{{
+              campaignForm.value.dateAndTime | date : "MMM d, y h:mm a"
+            }}</span>
+          </div>
+
+          <div>
+            <span
+              class="text-gray-600 font-semibold"
+              *ngIf="campaignForm.value.SMScontent"
+              >SMS Content:</span
+            >
+            <span class="block text-gray-900">{{
+              campaignForm.value.SMScontent || "Not specified"
+            }}</span>
+          </div>
+
+          <!-- Content (spanning 2 columns) -->
+          <div class="col-span-3">
+            <span class="text-gray-600 font-semibold">Content:</span>
+            <span
+              class="block whitespace-pre-wrap text-gray-900"
+              style="white-space: pre-wrap"
+            >
+              {{ campaignForm.value.content || "Not specified" }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div
+      *ngIf="
+        (isCohortMethod && currentStep === 4) ||
+        (!isCohortMethod && currentStep === 3)
+      "
+      class="fixed bottom-28"
+    >
+      <button
+        nz-button
+        nzType="default"
+        style="display: flex; justify-content: center; align-items: center"
+        type="button"
+        nzSize="small"
+        nz-popover
+        [(nzPopoverVisible)]="isAutogenerate"
+        (nzPopoverVisibleChange)="change($event)"
+        nzPopoverTrigger="click"
+        [nzPopoverContent]="contentTemplate"
+      >
+        <span nz-icon nzType="highlight" nzTheme="outline"></span>
+        {{ generateButtonText }}
+      </button>
+
+      <ng-template #contentTemplate>
+        <textarea
+          nz-input
+          placeholder="Content Prompt"
+          [(ngModel)]="contentText"
+          [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+        ></textarea>
+        <label nz-checkbox class="mt-2" [(ngModel)]="isEmoji">Add Emoji</label>
+        <button
+          nz-button
+          class="w-full mt-4"
+          nzType="primary"
+          (click)="onAutoGenerate()"
+        >
+          Ok
+        </button>
+      </ng-template>
+    </div>
+
+    <div
+      *ngIf="isCohortMethod && currentStep === 3"
+      style="
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        height: 100%;
+      "
+    >
+      <!-- Search Bar -->
+      <div>
+        <input
+          type="text"
+          placeholder="Search for a location"
+          [(ngModel)]="searchQuery"
+          (input)="onSearchChange()"
+          style="width: 100%; padding: 10px; margin-top: 1rem"
+        />
+        <ul
+          *ngIf="suggestions.length"
+          style="
+            border: 1px solid #ddd;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 81%;
+            position: absolute;
+            z-index: 9999;
+            background: white;
+          "
+        >
+          <li
+            *ngFor="let suggestion of suggestions"
+            (click)="selectSuggestion(suggestion)"
+            style="cursor: pointer; padding: 5px"
+          >
+            {{ suggestion.display_name }}
+          </li>
+        </ul>
+      </div>
+      <div id="map" style="flex: 1; height: inherit"></div>
+      <!-- Map -->
+    </div>
+  </div>
+
+  <div
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <div style="display: flex" class="mt-4 justify-start relative bottom-0">
+      <button nz-button *ngIf="currentStep !== 0" (click)="prevStep()">
+        <div style="display: flex" class="items-center justify-between gap-2">
+          <span nz-icon nzType="left" nzTheme="outline"></span>
+          Previous
+        </div>
+      </button>
+    </div>
+    <div style="display: flex" class="mt-4 justify-end relative bottom-0">
+      <button nz-button nzType="primary" (click)="handleClick()">
+        <div style="display: flex" class="items-center justify-between gap-2">
+          {{
+            (isCohortMethod && currentStep === 6) ||
+            (!isCohortMethod && currentStep === 5)
+              ? "Submit"
+              : "Next"
+          }}
+          <span nz-icon nzType="right" nzTheme="outline"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>

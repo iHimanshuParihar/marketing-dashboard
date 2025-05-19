@@ -1,0 +1,283 @@
+/* General form styles */
+form {
+  font-family: "Arial", sans-serif;
+  color: #e0e0e0;
+  /* Light gray text color */
+}
+
+/* Input and select fields */
+input[nz-input],
+nz-select {
+  width: 100% !important;
+  padding: 10px;
+  font-size: 16px;
+  font-family: "Arial", sans-serif;
+  color: #00923a;
+  /* Teal text color */
+  border: none;
+  border-bottom: 2px solid #00923a;
+  /* Yellow underline */
+  background-color: transparent;
+  /* Transparent background */
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+  max-width: 1000px;
+}
+
+/* Focused state for inputs and selects */
+input[nz-input]:focus,
+nz-select:focus {
+  border-bottom: 2px solid #00923a;
+  /* Teal border on focus */
+}
+
+/* Placeholder text styling */
+input[nz-input]::placeholder,
+nz-select[nzPlaceHolder]::placeholder,
+nz-date-picker[nzPlaceHolder]::placeholder {
+  color: #00923a;
+  opacity: 0.8;
+}
+
+/* Labels styling */
+nz-form-label {
+  font-size: 18px;
+  font-family: "Arial", sans-serif;
+  color: #00923a;
+  /* Yellow label color */
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* Error messages */
+.text-red-500 {
+  color: #d32f2f;
+  /* Red for error */
+  font-size: 14px;
+  font-family: "Arial", sans-serif;
+  margin-top: 5px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+/* Add warning icon before error messages */
+.text-red-500::before {
+  content: "⚠️ ";
+  margin-right: 5px;
+  font-size: 14px;
+}
+
+/* Select fields with dropdown arrow */
+nz-select {
+  position: relative;
+  padding-right: 30px;
+}
+
+nz-select::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 12px;
+  height: 12px;
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23e0e0e0" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>');
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+nz-radio-group label {
+  font-size: 16px;
+  color: #00923a;
+}
+
+/* Sliders */
+nz-slider {
+  max-width: 800px;
+  --nz-slider-track-color: #00923a;
+  --nz-slider-handle-color: #00923a;
+}
+
+/* 
+/* File upload button */
+nz-upload button {
+  background-color: #00923a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+nz-upload button:hover {
+  background-color: #00923a;
+  color: #333;
+}
+
+::ng-deep .ant-radio-group {
+  display: flex;
+  width: 100%;
+  gap: 10rem;
+}
+
+::ng-deep .ant-form-item-label>label {
+  font-weight: 400;
+  font-size: 20px;
+  color: #707070;
+}
+
+/* Text styling for headings and descriptions */
+h3 {
+  color: #00923a;
+  /* Yellow for headings */
+  font-size: 20px;
+  font-weight: bold;
+}
+
+p {
+  font-size: 16px;
+}
+
+/* Center form contents */
+.flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+label {
+  height: 90%;
+}
+
+/* Body background styling */
+body {
+  background-color: #333;
+  background-image: url("https://www.transparenttextures.com/patterns/dark-denim-3.png");
+  /* Chalkboard pattern */
+}
+
+::ng-deep .ant-select-selection-placeholder {
+  color: #00923a;
+}
+
+::ng-deep .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border: none;
+}
+
+::ng-deep .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border: none;
+  border-right-width: 1px;
+  box-shadow: none;
+  outline: 0;
+}
+
+::ng-deep .ant-select-status-error.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer).ant-select-open .ant-select-selector,
+.ant-select-status-error.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer).ant-select-focused .ant-select-selector {
+  border-right-width: 1px;
+  outline: 0;
+  box-shadow: none;
+  border: none;
+}
+
+::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  outline: 0;
+  box-shadow: none;
+  border: none;
+}
+
+/* Remove hover and focus styles for all inputs */
+::ng-deep input[nz-input] {
+  box-shadow: none !important;
+  /* Removes focus shadow */
+  outline: none !important;
+  /* Removes focus outline */
+  /* border-color: #d9d9d9 !important; */
+  /* Sets a neutral border color */
+  transition: none !important;
+  /* Disables hover and focus transitions */
+}
+
+nz-date-picker {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #00923a;
+}
+
+nz-date-picker .ant-picker-input {
+  margin: 1rem;
+}
+
+::ng-deep .ant-picker-input input::placeholder {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  /* Adjust the font size as per your requirement */
+  color: #00923a;
+  /* Placeholder color */
+}
+
+::ng-deep .ant-picker-input input {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  /* Adjust the font size for input value */
+  color: #00923a;
+  /* Input value color */
+}
+
+::ng-deep .ant-picker-focused .ant-picker-input {
+  border: none !important;
+  /* Remove the border */
+  box-shadow: none !important;
+  /* Remove the focus shadow */
+  border-bottom: 2px solid #00923a;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+}
+
+::ng-deep .ant-form-item-control,
+::ng-deep .ant-form-item-control-input,
+::ng-deep .ant-form-item-control-input-content,
+::ng-deep .ant-form-item {
+  height: 90%;
+}
+
+::ng-deep .ant-divider-vertical {
+  height: 100%;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.file-input-box {
+  padding: 20px;
+  border: 1px dashed green;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.input-box {
+  cursor: pointer;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.input-box:hover {
+  background-color: #ececec;
+}
+
+.wrapper-file-section {
+  margin-top: 20px;
+}

@@ -1,0 +1,36 @@
+<app-header
+  style="position: fixed; width: 100%; z-index: 5"
+  (fromChildCollapse)="changeCollapsed($event)"
+></app-header>
+<nz-layout class="app-layout" style="min-height: calc(100vh - 64px)">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    style="position: fixed; margin-top: 80px; height: 100%"
+    nzWidth="250px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+    [nzCollapsedWidth]="60"
+  >
+    <app-sidebar></app-sidebar>
+  </nz-sider>
+  <nz-layout
+    style="margin-top: 64px"
+    [style]="{
+      'margin-left': isCollapsed ? '60px' : '250px'
+    }"
+  >
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet nzTheme="dark"></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+
+@if (this.control.spinnerSig()) {
+<div class="spinner">
+  <span class="loader"></span>
+</div>
+}

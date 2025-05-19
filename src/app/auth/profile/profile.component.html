@@ -1,0 +1,30 @@
+<div class="w-full h-full mx-auto p-8">
+  <div class="profile-header text-center mb-14">
+    <h1 class="text-5xl font-bold text-gray-800">{{ businessName }}</h1>
+    <nz-divider></nz-divider>
+    <p class="text-xl text-gray-600 mt-2">
+      Owned by: <span class="font-semibold">{{ individualName }}</span>
+    </p>
+  </div>
+
+  <nz-divider></nz-divider>
+
+  <div class="bg-white p-6 rounded-lg space-y-6 gap-8">
+    <div class="flex flex-col space-y-4">
+      <div class="flex space-x-2">
+        <p class="text-lg text-gray-800 font-semibold">Description:</p>
+        <p class="text-gray-600 text-sm whitespace-break-spaces">
+          {{ businessDescription }}
+        </p>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <p class="text-lg text-gray-800 font-semibold">Active Since:</p>
+        <p class="text-sm text-gray-600">
+          {{ activeSince | date : "MMMM yyyy" }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <nz-divider></nz-divider>
+</div>

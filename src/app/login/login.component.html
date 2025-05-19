@@ -1,0 +1,81 @@
+<body>
+  <div
+    class="w-5/12 h-full float-end bg-white flex justify-center items-center relative z-50"
+  >
+    <div
+      class="flex flex-col justify-center sm:mx-auto sm:w-full sm:max-w-md h-screen"
+    >
+      <div class="card">
+        <h1 class="text-4xl font-bold text-center text-black mb-8">Login</h1>
+
+        <div class="bg-white py-10 px-6 sm:rounded-lg sm:px-10">
+          <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <!-- Email -->
+            <div class="mt-6 mb-10">
+              <label class="block text-sm font-medium text-gray-700" for="email"
+                >Email</label
+              >
+              <div class="mt-1">
+                <input
+                  class="appearance-none block w-full sm:w-96 px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  type="email"
+                  id="email"
+                  formControlName="email"
+                  placeholder="Enter your email"
+                />
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mt-6 mb-10">
+              <label
+                class="block text-sm font-medium text-gray-700"
+                for="password"
+                >Password</label
+              >
+              <div class="mt-1">
+                <input
+                  class="appearance-none block w-full sm:w-96 px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  formControlName="password"
+                  type="password"
+                  id="password"
+                  placeholder="Enter your password"
+                />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-8">
+              <button
+                nz-button
+                nzType="primary"
+                class="group relative w-full flex justify-center py-3 px-6 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                type="submit"
+                style="height: 3rem"
+              >
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-center items-center h-full overflow-hidden relative">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="logo-container">
+      <img class="logo" src="assets/logo.png" />
+      <p class="slogan">One stop digital marketing solution</p>
+    </div>
+
+    <div class="bg-animation">
+      <div id="stars"></div>
+      <div id="stars2"></div>
+      <div id="stars3"></div>
+      <div id="stars4"></div>
+    </div>
+  </div>
+</body>

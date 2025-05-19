@@ -1,0 +1,212 @@
+<nz-layout>
+  <nz-tabset
+    style="background: white; padding: 1rem"
+    [nzCentered]="true"
+    (nzSelectChange)="onTabChange($event.index)"
+  >
+    @for (tab of tabs; track tab) {
+    <nz-tab [nzTitle]="titleTemplate">
+      <ng-template #titleTemplate>
+        <span nz-icon [nzType]="tab.icon"></span>
+        {{ tab.name }}
+      </ng-template>
+      @if(currentTab === 0){
+      <nz-content style="padding: 24px">
+        <!-- Description -->
+        <div class="description">
+          <h1>Welcome to the Media Strings</h1>
+          <p>Monitor, create, and analyze campaigns all in one place.</p>
+          <button nz-button nzType="primary" (click)="createCampaign()">
+            Create New Campaign
+          </button>
+        </div>
+
+        <!-- Grid with Charts -->
+        <div class="grid-container">
+          <div nz-row [nzGutter]="16">
+            <div nz-col [nzSpan]="8">
+              <nz-card nzTitle="Channel-wise Performance" [nzBordered]="true">
+                <canvas id="chart1"></canvas>
+              </nz-card>
+            </div>
+            <div nz-col [nzSpan]="8">
+              <nz-card nzTitle="Cohort-wise Performance" [nzBordered]="true">
+                <canvas id="chart2"></canvas>
+              </nz-card>
+            </div>
+            <div nz-col [nzSpan]="8">
+              <nz-card nzTitle="Click Through Rate (CTR)" [nzBordered]="true">
+                <canvas id="chart3"></canvas>
+              </nz-card>
+            </div>
+          </div>
+          <br />
+          <div nz-row [nzGutter]="16">
+            <div nz-col [nzSpan]="8">
+              <nz-card nzTitle="Open Rate" [nzBordered]="true">
+                <canvas id="chart4"></canvas>
+              </nz-card>
+            </div>
+            <div nz-col [nzSpan]="8">
+              <nz-card nzTitle="Audience Growth" [nzBordered]="true">
+                <canvas id="chart5"></canvas>
+              </nz-card>
+            </div>
+            <div nz-col [nzSpan]="8">
+              <nz-card nzTitle="Messages Sent" [nzBordered]="true">
+                <canvas id="chart6"></canvas>
+              </nz-card>
+            </div>
+          </div>
+        </div>
+      </nz-content>
+      }@else if (currentTab === 1) {
+      <nz-page-header [nzGhost]="false">
+        <nz-page-header-title>Campaign</nz-page-header-title>
+        <nz-page-header-extra>
+          <nz-space>
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="primary"
+              (click)="createCampaign()"
+            >
+              Create Campaign
+            </button>
+          </nz-space>
+        </nz-page-header-extra>
+        <nz-page-header-content>
+          <nz-descriptions nzSize="small" [nzColumn]="3" nzBordered>
+            <nz-descriptions-item nzTitle="Created" [nzSpan]="1">
+              <span
+                [ngClass]="{
+                  'text-purple-500': createdValue > 0,
+                  'text-warning': createdValue === 0
+                }"
+              >
+                {{ createdValue }}
+              </span>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Sent" [nzSpan]="1">
+              <span
+                [ngClass]="{
+                  'text-green-500': sentValue > 0,
+                  'text-danger': sentValue === 0
+                }"
+              >
+                <a>{{ sentValue }}</a>
+              </span>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Scheduled" [nzSpan]="1">
+              <span
+                [ngClass]="{
+                  'text-yellow-500': scheduledValue > 0,
+                  'text-warning': scheduledValue === 0
+                }"
+              >
+                {{ scheduledValue }}
+              </span>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Failed" [nzSpan]="1">
+              <span
+                [ngClass]="{
+                  'text-red-500': failedValue > 0,
+                  'text-muted': failedValue === 0
+                }"
+              >
+                {{ failedValue }}
+              </span>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Deleted" [nzSpan]="1">
+              <span
+                [ngClass]="{
+                  'text-gray-600': deletedValue > 0,
+                  'text-muted': deletedValue === 0
+                }"
+              >
+                {{ deletedValue }}
+              </span>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="In Progress" [nzSpan]="1">
+              <span
+                [ngClass]="{
+                  'text-blue-500': inProgressValue > 0,
+                  'text-muted': inProgressValue === 0
+                }"
+              >
+                {{ inProgressValue }}
+              </span>
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </nz-page-header-content>
+      </nz-page-header>
+      <nz-divider></nz-divider>
+
+      <nz-page-header nzTitle="Campaign List"></nz-page-header>
+      <nz-table #basicTable [nzData]="dataSet">
+        <thead>
+          <tr>
+            <th>Campaign Name</th>
+            <th>Created Date</th>
+            <th>Scheduled Date</th>
+            <th>Total Sent</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            <td>{{ data.campaignName }}</td>
+            <td>{{ data.createdDate | date : "d MMM yyyy, h:mm a" }}</td>
+            <td>{{ data.scheduledSentDate | date : "d MMM yyyy, h:mm a" }}</td>
+            <td>{{ data.totalSent }}</td>
+            <td>
+              <nz-tag
+                [nzColor]="getStatusBgColor(data.status)"
+                class="status-tag"
+              >
+                {{ data.status }}
+              </nz-tag>
+            </td>
+
+            <td>
+              <a style="color: red"
+                ><span nz-icon [nzType]="'delete'"></span
+              ></a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <nz-divider></nz-divider>
+
+      }@else if (currentTab === 2) {
+
+      <nz-calendar>
+        <ul *nzDateCell="let date" class="events">
+          <ng-container *ngFor="let item of getEventsForDate(date)">
+            <li nz-tooltip [nzTooltipTitle]="item.content">
+              <nz-badge
+                [nzStatus]="item.type"
+                [nzText]="item.content"
+              ></nz-badge>
+            </li>
+          </ng-container>
+        </ul>
+
+        <ng-container *nzMonthCell="let month">
+          <ng-container *ngIf="getMonthData(month) as monthData">
+            <div class="notes-month">
+              <section>{{ monthData }}</section>
+              <span>Backlog number</span>
+            </div>
+          </ng-container>
+        </ng-container>
+      </nz-calendar>
+
+      }@else {}
+    </nz-tab>
+    }
+  </nz-tabset>
+
+  <!-- Content -->
+</nz-layout>

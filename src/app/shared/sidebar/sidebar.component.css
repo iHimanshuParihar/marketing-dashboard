@@ -1,0 +1,33 @@
+.sidebar-logo {
+  position: relative;
+  height: 64px;
+  padding-left: 20px;
+  overflow: hidden;
+  line-height: 64px;
+  background: #001529;
+  transition: all 0.3s;
+}
+
+.sidebar-logo img {
+  display: inline-block;
+  height: 32px;
+  width: 32px;
+  vertical-align: middle;
+}
+
+.sidebar-logo h1 {
+  display: inline-block;
+  margin: 0 0 0 20px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+i {
+  padding-right: 20px;
+}
+
+.ant-menu-inline.ant-menu-root .ant-menu-item:last-child {
+  margin-bottom: 5em;
+}

@@ -1,0 +1,74 @@
+nz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #001529;
+
+  .logo {
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+
+.description {
+  text-align: center;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 15rem;
+
+  h1 {
+    font-size: 40px;
+  }
+
+  p {
+    margin-bottom: 16px;
+    font-size: 16px;
+    color: #555;
+  }
+}
+
+.grid-container {
+  padding: 20px;
+  background-color: #f0f2f5;
+}
+
+nz-card {
+  height: 100%;
+  text-align: center;
+}
+
+canvas {
+  max-height: 300px;
+  max-width: 100%;
+}
+
+nz-table {
+  margin-top: 16px;
+}
+
+.status-tag {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  text-align: center;
+}
+
+.events {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.events .ant-badge-status {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}

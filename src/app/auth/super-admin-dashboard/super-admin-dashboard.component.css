@@ -1,0 +1,68 @@
+td {
+    text-align: center;
+}
+
+
+.charts-container {
+    padding: 20px;
+}
+
+.chart-upload-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
+.chart-upload-section h3 {
+    margin-bottom: 16px;
+    color: #262626;
+    font-size: 16px;
+}
+
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.upload-box {
+    width: 100%;
+    height: 120px;
+    border: 2px dashed #d9d9d9;
+    border-radius: 8px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.upload-box:hover {
+    border-color: #1890ff;
+}
+
+.upload-box span {
+    font-size: 24px;
+    color: #8c8c8c;
+    margin-bottom: 8px;
+}
+
+.upload-box p {
+    margin: 0;
+    color: #8c8c8c;
+}
+
+.selected-file {
+    color: #1890ff !important;
+    font-size: 12px;
+    margin-top: 8px !important;
+}
+
+button {
+    margin-top: 8px;
+}

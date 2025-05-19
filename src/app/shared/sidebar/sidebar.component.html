@@ -1,0 +1,31 @@
+<ul nz-menu nzTheme="light" nzMode="inline" class="h-full">
+  @if(control.userRole !== "SUPER_ADMIN"){
+  <li nz-menu-item nzMatchRouter style="margin-top: 1.5rem !important">
+    <i nz-icon nzType="home" nzTheme="outline"></i>
+    <a routerLink="/auth/home">Home</a>
+  </li>
+
+  <li nz-menu-item nzMatchRouter>
+    <i nz-icon nzType="project" nzTheme="outline"></i>
+    <a routerLink="/auth/profile">Profile</a>
+  </li>
+  }@else{
+  <li nz-menu-item nzMatchRouter style="margin-top: 1.5rem !important">
+    <i nz-icon nzType="project" nzTheme="outline"></i>
+    <a routerLink="/auth/s-dashboard">Home</a>
+  </li>
+  }
+
+  <li nz-menu-item nzMatchRouter>
+    <i nz-icon nzType="logout" nzTheme="outline"></i>
+    <a tabindex="0" (click)="logout()">Logout</a>
+  </li>
+</ul>
+
+<div
+  *ngIf="control.userRole !== 'SUPER_ADMIN'"
+  class="absolute bottom-24 left-0 right-0 flex items-center justify-center p-4 rounded-md font-bold"
+>
+  <div *ngIf="!this.control.isSidebarCollapsed()">Credits:</div>
+  <span class="ml-1 text-green-600">{{ user?.credit || 0 }}</span>
+</div>
