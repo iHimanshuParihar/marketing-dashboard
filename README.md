@@ -1,95 +1,148 @@
-<<<<<<< README.md
-# middle-strings-customer-portal
+# 🚀 Marketing Dashboard Pro
+
+> Your all-in-one solution for campaign creation, AI-powered content generation, and comprehensive analytics.
 
 
 
-## Getting started
+## 🔍 Overview
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Marketing Dashboard Pro is a powerful, intuitive platform designed to streamline your marketing workflow. Create campaigns effortlessly, generate AI-powered marketing content, track performance analytics, and manage your marketing calendar—all in one centralized dashboard. With role-based access control, team collaboration has never been easier.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## ✨ Key Features
 
-## Add your files
+### Campaign Management
+- **Create & Edit Campaigns** - Intuitive interface for building marketing campaigns from scratch
+- **Campaign Templates** - Save time with pre-built templates for common marketing objectives
+- **Campaign Status Tracking** - Monitor active, scheduled, and completed campaigns at a glance
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### AI-Powered Content Generation
+- **Auto-Generate Content** - Create compelling marketing copy with our AI assistant based on your prompts
+- **Multi-Channel Content** - Generate content optimized for different platforms (social media, email, blogs)
+- **Content Library** - Store, organize, and reuse your best-performing content
 
+### Comprehensive Analytics
+- **Real-Time Performance Metrics** - Track impressions, clicks, conversions, and ROI
+- **Custom Reports** - Build tailored reports focusing on your most important KPIs
+- **Data Visualization** - Intuitive charts and graphs for quick performance assessment
+
+### Calendar Integration
+- **Visual Campaign Timeline** - See all scheduled campaigns in an interactive calendar view
+- **Content Publishing Schedule** - Plan and schedule content releases across platforms
+- **Drag-and-Drop Rescheduling** - Easily adjust campaign timing with intuitive controls
+
+### User Management
+- **Role-Based Access** - Control permissions with customizable user roles
+- **Super Admin Control** - Overview and management of all campaigns across users
+- **Team Collaboration** - Comment, approve, and collaborate on campaigns in real-time
+
+## 🛠️ Technologies
+
+- **Frontend**: Angular, Tailwind CSS
+- **Backend**: Node.js, Express
+- **AI Integration**: OpenAI API
+- **Database**: MongoDB
+- **Authentication**: JWT, Role-based access control
+
+## 🏃‍♂️ Getting Started
+
+### Prerequisites
+
+- Node.js (v16+)
+- Angular CLI
+- MongoDB
+- API key from OpenAI
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/marketing-dashboard.git
+cd marketing-dashboard
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/ihimanshuparihar/middle-strings-customer-portal.git
-git branch -M main
-git push -uf origin main
+
+2. Install dependencies
+```bash
+# Install backend dependencies
+cd server
+npm install
+
+# Install frontend dependencies
+cd ../client
+npm install
 ```
 
-## Integrate with your tools
+3. Set up environment variables
+```bash
+# In the server directory, create a .env file
+MONGODB_URI=your_mongodb_connection_string
+OPENAI_API_KEY=your_openai_api_key
+JWT_SECRET=your_jwt_secret
+PORT=3000
+```
 
-- [ ] [Set up project integrations](https://gitlab.com/ihimanshuparihar/middle-strings-customer-portal/-/settings/integrations)
+4. Run the application
+```bash
+# Start the backend server
+cd server
+npm start
 
-## Collaborate with your team
+# In a new terminal, start the frontend
+cd client
+ng serve
+```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+5. Open your browser and navigate to `http://localhost:4200`
 
-## Test and Deploy
+## 📋 How to Use
 
-Use the built-in continuous integration in GitLab.
+### Creating a Campaign
+1. Navigate to the "Campaigns" section and click "Create New Campaign"
+2. Fill in campaign details (name, objective, target audience, etc.)
+3. Use the AI content generator to create marketing content
+4. Set campaign schedule and publication channels
+5. Save or publish your campaign
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### Generating AI Content
+1. Select the "AI Content Generator" within a campaign
+2. Enter your content prompt (e.g., "Create an email campaign for our summer sale targeting millennial customers")
+3. Choose the content type (email, social post, blog article, etc.)
+4. Generate and edit the AI-created content
+5. Save to your content library or add directly to your campaign
 
-***
+### Viewing Analytics
+1. Navigate to the "Analytics" section
+2. Select the campaign(s) you want to analyze
+3. Choose your date range and metrics
+4. View visualized data and download reports as needed
 
-# Editing this README
+### Calendar Management
+1. Go to the "Calendar" section to view all scheduled campaigns
+2. Filter by campaign type, team member, or status
+3. Click on any calendar item to view campaign details
+4. Drag and drop to reschedule campaigns as needed
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### Super Admin Functions
+1. Access the "Admin" section (Super Admin only)
+2. View and manage all user accounts and permissions
+3. Access and edit all campaigns across the platform
+4. Generate organization-wide performance reports
 
-## Suggestions for a good README
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+<img width="1680" alt="Screenshot 2025-05-19 at 10 18 36 PM" src="https://github.com/user-attachments/assets/781c3263-14bb-4520-a77d-8d5fd8edbb9c" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 09 20 PM" src="https://github.com/user-attachments/assets/2a8b1864-b403-4010-9d34-72974e5d9de5" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 08 56 PM" src="https://github.com/user-attachments/assets/0ec8bac7-b89e-4e97-96b2-219ece8d93d6" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 07 58 PM" src="https://github.com/user-attachments/assets/0f2b2beb-c8d1-47a6-af32-f45f8b3174b9" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 07 40 PM" src="https://github.com/user-attachments/assets/75fb179c-f562-4aa0-9bfa-dc289db2c421" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 07 02 PM" src="https://github.com/user-attachments/assets/aa1fe49c-9957-47ab-bdd1-f72849b4cb5b" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 06 51 PM" src="https://github.com/user-attachments/assets/fbeeb2a3-78d8-4f21-8bf6-6ceb6e19b57f" />
+<img width="1679" alt="Screenshot 2025-05-19 at 10 06 44 PM" src="https://github.com/user-attachments/assets/6298e11e-e47e-4c5a-85c2-e1f9d6c54a74" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 06 37 PM" src="https://github.com/user-attachments/assets/9af5d336-290d-4e2c-9426-43668a9b793e" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 06 23 PM" src="https://github.com/user-attachments/assets/61ab9da7-fc7f-4d09-b57f-b6031755b01c" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 06 11 PM" src="https://github.com/user-attachments/assets/2b3ac443-e173-4333-92fb-62146939b507" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 06 05 PM" src="https://github.com/user-attachments/assets/875b13c0-01f7-4950-a0f0-952dd8dcdd30" />
 
-## Name
-Choose a self-explaining name for your project.
+<img width="1680" alt="Screenshot 2025-05-19 at 10 05 59 PM" src="https://github.com/user-attachments/assets/09801546-6776-4945-a3e5-b840581a77f1" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 04 47 PM" src="https://github.com/user-attachments/assets/14094fec-b349-4fa8-ab65-431862f9a591" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 04 40 PM" src="https://github.com/user-attachments/assets/6c41e826-1b95-4275-bddd-dd65edbb40dd" />
+<img width="1680" alt="Screenshot 2025-05-19 at 10 04 29 PM" src="https://github.com/user-attachments/assets/4dedfe39-7d30-4c7e-baaf-7bf991b7a843" />
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
->>>>>>> README.md
